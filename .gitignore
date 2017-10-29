@@ -1,0 +1,12 @@
+Fat (Stat) Cruncher Problem Statement.gdoc
+loseit_analytics_probs.gdoc
+*WALD_Dates_Weights.db
+*sw_data/
+*test*.txt
+*test*.csv
+*.ipynb_checkpoints/
+src/geckodriver.log
+pickle_pantry/**
+presentations/*
+data/lose_it.archive
+images/**
