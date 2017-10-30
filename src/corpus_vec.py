@@ -117,7 +117,7 @@ if __name__=='__main__':
     """Query and vectorize corpus; pickle post_ids, tfidf sparse matrix
     and fitted vectorizer (model)
     """
-    conn = psycopg2.connect(dbname='loseit', host='localhost')
+    conn = psycopg2.connect(dbname='loseit')
     cur = conn.cursor()
     query = """
             SELECT DISTINCT(post_id) AS post_id

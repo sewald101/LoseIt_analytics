@@ -26,7 +26,7 @@ class OutputResults(object):
             print "URL: {}\n".format(result[5])
 
     def query_record(self, post_id):
-        conn = psycopg2.connect(dbname='loseit', host='localhost')
+        conn = psycopg2.connect(dbname='loseit')
         cur = conn.cursor()
         query = """
                 SELECT post_id
