@@ -1,6 +1,7 @@
 
 import numpy as np
 import pandas as pd
+from numpy.linalg import norm
 
 import psycopg2
 import spacy
@@ -90,7 +91,7 @@ class MatchPosts(object):
         """Vectorizes journal entry w model pre-fit to archive
         """
         j_vec = self.model.transform([self.groom_journal(self.j_entry)])
-        self.j_tfidf = np.array(j_vec.todense())
+        self.j_tfidf = norm(np.array(j_vec.todense()))
 
     def groom_journal(self, text):
         """Preps journal entry for tfidf vectorization"""

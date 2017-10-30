@@ -14,6 +14,7 @@ GLOBAL VARIABLES:
 
 import numpy as np
 import pandas as pd
+from numpy.linalg import norm
 
 import psycopg2
 import spacy
@@ -26,6 +27,7 @@ from nltk.corpus import stopwords
 import string
 
 import cPickle as pickle
+from timeit import timeit
 
 """
 GLOBAL VARIABLES
@@ -109,7 +111,8 @@ def corpus_df(model, q_results):
     raw_texts = [result[6].decode('utf-8') for result in q_results]
     cleaned_texts = [cleanText(text) for text in raw_texts]
     model = TFIDFER.fit(cleaned_texts)
-    tfidf_M = TFIDFER.transform(cleaned_texts)
+    tfidfed = TFIDFER.transform(cleaned_texts)
+    tfidf_M = tfidfed / norm(tfidfed, axis=1)
 
     return post_ids, tfidf_M, model
 
@@ -151,13 +154,17 @@ if __name__=='__main__':
     corpus_master = '../pickle_pantry/corpus_vec.pickle'
     model_master = '../pickle_pantry/model.pickle'
 
-    with open (ids_10K, 'wb') as f:
+    ids_10K_normed = '../pickle_pantry/post_ids_10K_n.pickle'
+    corpus_vec_10K_normed = '../pickle_pantry/corpus_vec_10K_n.pickle'
+    model_10K_normed = '../pickle_pantry/model_10K_n.pickle'
+
+    with open (ids_10K_normed, 'wb') as f:
         pickle.dump(ids, f)
 
-    with open (corpus_vec_10K, 'wb') as f:
+    with open (corpus_vec_10K_normed, 'wb') as f:
         pickle.dump(arr, f)
 
-    with open (model_10K, 'wb') as f:
+    with open (model_10K_normed, 'wb') as f:
         pickle.dump(model, f)
 
     conn.close()
