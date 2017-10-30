@@ -19,6 +19,14 @@ ids_master = '../pickle_pantry/post_ids.pickle'
 corpus_master = '../pickle_pantry/corpus_vec.pickle'
 model_master = '../pickle_pantry/model.pickle'
 
+ids_10K_normed = '../pickle_pantry/post_ids_10K_n.pickle'
+corpus_vec_10K_normed = '../pickle_pantry/corpus_vec_10K_n.pickle'
+model_10K_normed = '../pickle_pantry/model_10K_n.pickle'
+
+ids_100_normed = '../pickle_pantry/post_ids_100_n.pickle'
+corpus_vec_100_normed = '../pickle_pantry/corpus_vec_100_n.pickle'
+model_100_normed = '../pickle_pantry/model_100_n.pickle'
+
 def run_peptalk():
         with open (ids_10K, 'rb') as f:
             ids = pickle.load(f)
@@ -39,11 +47,11 @@ def run_peptalk():
 
 if __name__=='__main__':
     # Loading corpus post_ids, tfidf array and pre-fitted model
-    with open (ids_master, 'rb') as f:
+    with open (ids_100_normed, 'rb') as f:
         ids = pickle.load(f)
-    with open (corpus_master, 'rb') as f:
+    with open (corpus_vec_100_normed, 'rb') as f:
         arr = pickle.load(f)
-    with open (model_master, 'rb') as f:
+    with open (model_100_normed, 'rb') as f:
         model = pickle.load(f)
 
     # User inputs journal entry and number of desired results

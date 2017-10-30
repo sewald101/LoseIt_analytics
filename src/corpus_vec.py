@@ -111,8 +111,8 @@ def corpus_df(model, q_results):
     raw_texts = [result[6].decode('utf-8') for result in q_results]
     cleaned_texts = [cleanText(text) for text in raw_texts]
     model = TFIDFER.fit(cleaned_texts)
-    tfidfed = TFIDFER.transform(cleaned_texts)
-    tfidf_M = tfidfed / norm(tfidfed, axis=1)
+    tfidfed = TFIDFER.transform(cleaned_texts).todense()
+    tfidf_M = tfidfed / norm(tfidfed, axis=0)
 
     return post_ids, tfidf_M, model
 
@@ -135,7 +135,7 @@ if __name__=='__main__':
               , post_idx
             FROM posts
             ORDER BY topic_id, post_idx
-            LIMIT 10000;
+            LIMIT 100;
             """
     cur.execute(query)
     corpus = cur.fetchall()
@@ -158,13 +158,17 @@ if __name__=='__main__':
     corpus_vec_10K_normed = '../pickle_pantry/corpus_vec_10K_n.pickle'
     model_10K_normed = '../pickle_pantry/model_10K_n.pickle'
 
-    with open (ids_10K_normed, 'wb') as f:
+    ids_100_normed = '../pickle_pantry/post_ids_100_n.pickle'
+    corpus_vec_100_normed = '../pickle_pantry/corpus_vec_100_n.pickle'
+    model_100_normed = '../pickle_pantry/model_100_n.pickle'
+
+    with open (ids_100_normed, 'wb') as f:
         pickle.dump(ids, f)
 
-    with open (corpus_vec_10K_normed, 'wb') as f:
+    with open (corpus_vec_100_normed, 'wb') as f:
         pickle.dump(arr, f)
 
-    with open (model_10K_normed, 'wb') as f:
+    with open (model_100_normed, 'wb') as f:
         pickle.dump(model, f)
 
     conn.close()

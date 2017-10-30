@@ -92,7 +92,7 @@ class MatchPosts(object):
         """Vectorizes journal entry w model pre-fit to archive
         """
         j_vec = self.model.transform([self.groom_journal(self.j_entry)]).todense()
-        self.j_tfidf = np.array(j_vec / norm(j_vec, axis=1)
+        self.j_tfidf = np.array(j_vec / norm(j_vec, axis=0))
 
     def groom_journal(self, text):
         """Preps journal entry for tfidf vectorization"""
@@ -109,7 +109,7 @@ class MatchPosts(object):
         """
         cols = self.model.vocabulary_
         self.corpus_df = pd.DataFrame(
-            self.corpus_vec.todense(),
+            self.corpus_vec,
             index=self.post_ids,
             columns=cols
             )
