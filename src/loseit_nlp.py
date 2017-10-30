@@ -9,6 +9,7 @@ from spacy.en import English
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import linear_kernel
 
 import corpus_vec
 
@@ -80,7 +81,7 @@ class MatchPosts(object):
         Calcuates cosign_sim between journal entry signature and each archived message.
         Outputs a vector of results.
         """
-        sim_M = cosine_similarity(self.corpus_df, self.j_M)
+        sim_M = linear_kernel(self.corpus_df, self.j_M)
         self.similarities = sim_M[:,0]
 
     def tile_j_M(self):
@@ -90,8 +91,8 @@ class MatchPosts(object):
     def journal_tfidf(self):
         """Vectorizes journal entry w model pre-fit to archive
         """
-        j_vec = self.model.transform([self.groom_journal(self.j_entry)])
-        self.j_tfidf = norm(np.array(j_vec.todense()))
+        j_vec = self.model.transform([self.groom_journal(self.j_entry)]).todense()
+        self.j_tfidf = np.array(j_vec / norm(j_vec, axis=1)
 
     def groom_journal(self, text):
         """Preps journal entry for tfidf vectorization"""
